@@ -28,7 +28,9 @@
     "plugins": [
       "expo-router",
       "expo-status-bar",
-      "react-native-edge-to-edge"
+      "react-native-edge-to-edge",
+      "expo-font",
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true
