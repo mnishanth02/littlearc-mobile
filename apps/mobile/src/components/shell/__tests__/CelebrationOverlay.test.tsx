@@ -1,5 +1,5 @@
 jest.mock('expo-haptics', () => ({
-  notificationAsync: jest.fn(),
+  notificationAsync: jest.fn().mockResolvedValue(undefined),
   NotificationFeedbackType: { Success: 'success' },
 }))
 jest.mock('lottie-react-native', () => {
@@ -12,7 +12,7 @@ jest.mock('../../../lib/a11y', () => ({
   DISPLAY_MAX_FONT_SCALE: 1.3,
 }))
 
-import { render } from '@testing-library/react-native'
+import { render, act } from '@testing-library/react-native'
 import * as Haptics from 'expo-haptics'
 import { useReduceMotion } from '../../../lib/a11y'
 import { CelebrationOverlay } from '../CelebrationOverlay'
@@ -20,7 +20,22 @@ import { CelebrationOverlay } from '../CelebrationOverlay'
 const src = { uri: 'test.json' }
 
 describe('CelebrationOverlay', () => {
-  afterEach(() => (useReduceMotion as jest.Mock).mockReturnValue(false))
+  afterEach(() => {
+    ;(useReduceMotion as jest.Mock).mockReturnValue(false)
+    jest.useRealTimers()
+  })
+
+  it('auto-dismisses under reduce-motion after a short delay', async () => {
+    jest.useFakeTimers()
+    ;(useReduceMotion as jest.Mock).mockReturnValue(true)
+    const onDone = jest.fn()
+    await render(<CelebrationOverlay visible title="First steps!" source={src} onDone={onDone} />)
+    expect(onDone).not.toHaveBeenCalled()
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(1800)
+    })
+    expect(onDone).toHaveBeenCalledTimes(1)
+  })
 
   it('plays lottie and fires a success haptic when shown', async () => {
     const { getByTestId } = await render(<CelebrationOverlay visible title="First steps!" source={src} />)

@@ -35,8 +35,13 @@ export function CelebrationOverlay({ visible, title, source, onDone }: Props) {
   const reduce = useReduceMotion()
 
   useEffect(() => {
-    if (visible) Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-  }, [visible])
+    if (!visible) return
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {})
+    if (reduce) {
+      const t = setTimeout(() => onDone?.(), 1800)
+      return () => clearTimeout(t)
+    }
+  }, [visible, reduce])
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onDone}>

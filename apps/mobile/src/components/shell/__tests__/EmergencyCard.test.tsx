@@ -21,4 +21,16 @@ describe('EmergencyCard', () => {
     )
     expect(getByText('None recorded')).toBeTruthy()
   })
+
+  it('labels each call button and dials the right number', async () => {
+    const onCall = jest.fn()
+    const contacts = [{ name: 'Meera', role: 'Guardian', phone: '+91 90000 11111' }]
+    const { getByLabelText } = await render(
+      <EmergencyCard bloodGroup="O+" allergies={['Peanuts']} paediatrician={ped} contacts={contacts} onCall={onCall} />,
+    )
+    await fireEvent.press(getByLabelText('Call Dr. Rao'))
+    expect(onCall).toHaveBeenCalledWith('+91 90000 00000')
+    await fireEvent.press(getByLabelText('Call Meera'))
+    expect(onCall).toHaveBeenCalledWith('+91 90000 11111')
+  })
 })

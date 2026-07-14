@@ -26,13 +26,13 @@ export function EmergencyCard({ bloodGroup, allergies, paediatrician, contacts, 
   const c = UnistylesRuntime.getTheme().colors
   const allergyText = allergies.length ? allergies.join(', ') : 'None recorded'
   return (
-    <View style={styles.card} accessibilityLabel="Emergency information">
+    <View style={styles.card}>
       <View style={styles.header}>
         <Warning size={22} color={c.onDanger} weight="fill" />
         <Text variant="h3" style={{ color: c.onDanger }}>Emergency</Text>
       </View>
 
-      <View style={styles.section} accessibilityLabel={`Blood group ${bloodGroup}`}>
+      <View style={styles.section} accessible accessibilityLabel={`Blood group ${bloodGroup}`}>
         <View style={styles.inline}>
           <Drop size={18} color={c.dangerText} weight="fill" />
           <Text variant="label" tone="muted">BLOOD GROUP</Text>
@@ -40,7 +40,7 @@ export function EmergencyCard({ bloodGroup, allergies, paediatrician, contacts, 
         <Text variant="h2">{bloodGroup}</Text>
       </View>
 
-      <View style={styles.section} accessibilityLabel={`Allergies: ${allergyText}`}>
+      <View style={styles.section} accessible accessibilityLabel={`Allergies: ${allergyText}`}>
         <View style={styles.inline}>
           <Warning size={18} color={c.warningText} weight="fill" />
           <Text variant="label" tone="muted">ALLERGIES</Text>
@@ -54,12 +54,12 @@ export function EmergencyCard({ bloodGroup, allergies, paediatrician, contacts, 
           <Text variant="label" tone="muted">PAEDIATRICIAN & CONTACTS</Text>
         </View>
         {[paediatrician, ...contacts].map((ct, i) => (
-          <View key={`${ct.phone}-${i}`} style={styles.contactRow} accessibilityLabel={`${ct.role}, ${ct.name}, ${ct.phone}`}>
+          <View key={`${ct.phone}-${i}`} style={styles.contactRow}>
             <View style={styles.contactMid}>
               <Text variant="bodyEmphasis">{ct.name}</Text>
               <Text variant="caption" tone="muted">{ct.role} · {ct.phone}</Text>
             </View>
-            <Button label="Call" intent="danger" size="md" leftIcon={Phone} onPress={() => onCall?.(ct.phone)} />
+            <Button label="Call" accessibilityLabel={`Call ${ct.name}`} intent="danger" size="md" leftIcon={Phone} onPress={() => onCall?.(ct.phone)} />
           </View>
         ))}
       </View>
