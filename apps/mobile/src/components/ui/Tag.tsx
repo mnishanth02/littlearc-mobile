@@ -1,10 +1,10 @@
-import { View } from 'react-native'
+import { View, StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
 import { Text } from './Text'
 import type { PhIcon } from './Icon'
+import type { ModuleKey } from '../../theme/tokens/contract'
 
-type ModuleKey = 'today' | 'timeline' | 'vault' | 'activities' | 'family'
-type Props = { label: string; module: ModuleKey; icon?: PhIcon }
+type Props = { label: string; module: ModuleKey; icon?: PhIcon; style?: StyleProp<ViewStyle>; testID?: string }
 
 const styles = StyleSheet.create(theme => ({
   tag: {
@@ -22,11 +22,11 @@ const styles = StyleSheet.create(theme => ({
   },
 }))
 
-export function Tag({ label, module, icon: Icon }: Props) {
+export function Tag({ label, module, icon: Icon, style, testID }: Props) {
   styles.useVariants({ module })
   const color = UnistylesRuntime.getTheme().colors.modules[module].text
   return (
-    <View style={styles.tag}>
+    <View style={[styles.tag, style]} testID={testID}>
       {Icon ? <Icon size={13} color={color} weight="fill" /> : null}
       <Text variant="label" style={{ color, fontSize: 11, letterSpacing: 0.6 }}>{label.toUpperCase()}</Text>
     </View>

@@ -34,6 +34,7 @@ export function TextField({ label, helper, error, onFocus, onBlur, style, ...res
       ) : null}
       <View style={styles.field}>
         <TextInput
+          accessibilityLabel={label}
           placeholderTextColor={c.textMuted}
           style={[styles.input, style]}
           onFocus={e => { setFocused(true); onFocus?.(e) }}
@@ -42,7 +43,7 @@ export function TextField({ label, helper, error, onFocus, onBlur, style, ...res
         />
       </View>
       {error ? (
-        <Text variant="caption" tone="danger" style={{ marginTop: 6 }}>{error}</Text>
+        <Text variant="caption" tone="danger" style={{ marginTop: 6 }} accessibilityLiveRegion="polite">{error}</Text>
       ) : helper ? (
         <Text variant="caption" tone="muted" style={{ marginTop: 6 }}>{helper}</Text>
       ) : null}

@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
-import { Pressable, View } from 'react-native'
+import { Pressable, View, StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
 import { CaretRight } from 'phosphor-react-native'
 import { Text } from './Text'
 import type { PhIcon } from './Icon'
+import type { ModuleKey } from '../../theme/tokens/contract'
 
-type ModuleKey = 'today' | 'timeline' | 'vault' | 'activities' | 'family'
 type Props = {
   icon: PhIcon
   module?: ModuleKey
@@ -13,6 +13,8 @@ type Props = {
   subtitle?: string
   onPress?: () => void
   right?: ReactNode
+  style?: StyleProp<ViewStyle>
+  testID?: string
 }
 
 const styles = StyleSheet.create(theme => ({
@@ -32,20 +34,26 @@ const styles = StyleSheet.create(theme => ({
   mid: { flex: 1 },
 }))
 
-export function ListRow({ icon: Icon, module = 'vault', title, subtitle, onPress, right }: Props) {
+export function ListRow({ icon: Icon, module = 'vault', title, subtitle, onPress, right, style, testID }: Props) {
   styles.useVariants({ module })
   const c = UnistylesRuntime.getTheme().colors
   const iconColor = c.modules[module].text
-  const body = (
-    <View style={styles.row}>
+  const inner = (
+    <>
       <View style={styles.iconWrap}><Icon size={21} color={iconColor} weight="fill" /></View>
       <View style={styles.mid}>
         <Text variant="bodyEmphasis">{title}</Text>
         {subtitle ? <Text variant="caption" tone="muted">{subtitle}</Text> : null}
       </View>
       {right ?? (onPress ? <CaretRight size={18} color={c.textMuted} /> : null)}
-    </View>
+    </>
   )
-  if (onPress) return <Pressable accessibilityRole="button" onPress={onPress}>{body}</Pressable>
-  return body
+  if (onPress) {
+    return (
+      <Pressable accessibilityRole="button" onPress={onPress} style={[styles.row, style]} testID={testID}>
+        {inner}
+      </Pressable>
+    )
+  }
+  return <View style={[styles.row, style]} testID={testID}>{inner}</View>
 }

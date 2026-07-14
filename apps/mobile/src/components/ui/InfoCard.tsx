@@ -1,9 +1,9 @@
-import { View } from 'react-native'
+import { View, StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
 import { Text } from './Text'
 import type { PhIcon } from './Icon'
 
-type Props = { icon: PhIcon; title: string; subtitle?: string }
+type Props = { icon: PhIcon; title: string; subtitle?: string; style?: StyleProp<ViewStyle>; testID?: string }
 
 const styles = StyleSheet.create(theme => ({
   card: {
@@ -15,10 +15,10 @@ const styles = StyleSheet.create(theme => ({
   mid: { flex: 1 },
 }))
 
-export function InfoCard({ icon: Icon, title, subtitle }: Props) {
+export function InfoCard({ icon: Icon, title, subtitle, style, testID }: Props) {
   const c = UnistylesRuntime.getTheme().colors
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, style]} testID={testID}>
       <View style={styles.iconWrap}><Icon size={22} color={c.onPrimary} weight="fill" /></View>
       <View style={styles.mid}>
         <Text variant="bodyEmphasis">{title}</Text>

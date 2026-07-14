@@ -12,6 +12,11 @@ describe('small primitives', () => {
     expect(onPress).toHaveBeenCalled()
   })
 
+  it('Chip reports its unselected state', async () => {
+    const { getByRole } = await render(<Chip label="None" onPress={jest.fn()} />)
+    expect(getByRole('button').props.accessibilityState.selected).toBe(false)
+  })
+
   it('Avatar shows the first initial when no image', async () => {
     const { getByText } = await render(<Avatar name="Aarav" />)
     expect(getByText('A')).toBeTruthy()

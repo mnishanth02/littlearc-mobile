@@ -1,10 +1,10 @@
-import { Pressable } from 'react-native'
+import { Pressable, StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
 import { CheckCircle } from 'phosphor-react-native'
 import { Text } from './Text'
 import { fonts } from '../../theme/tokens/typography'
 
-type Props = { label: string; selected?: boolean; onPress?: () => void }
+type Props = { label: string; selected?: boolean; onPress?: () => void; style?: StyleProp<ViewStyle>; testID?: string }
 
 const styles = StyleSheet.create(theme => ({
   chip: {
@@ -19,11 +19,11 @@ const styles = StyleSheet.create(theme => ({
   },
 }))
 
-export function Chip({ label, selected = false, onPress }: Props) {
+export function Chip({ label, selected = false, onPress, style, testID }: Props) {
   styles.useVariants({ selected })
   const c = UnistylesRuntime.getTheme().colors
   return (
-    <Pressable accessibilityRole="button" accessibilityState={{ selected }} onPress={onPress} style={styles.chip}>
+    <Pressable accessibilityRole="button" accessibilityState={{ selected }} onPress={onPress} style={[styles.chip, style]} testID={testID}>
       {selected ? <CheckCircle size={15} color={c.accent} weight="fill" /> : null}
       <Text variant="caption" style={{ color: selected ? c.accent : c.textSecondary, fontFamily: fonts.ui700 }}>{label}</Text>
     </Pressable>

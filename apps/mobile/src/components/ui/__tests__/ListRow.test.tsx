@@ -13,4 +13,9 @@ describe('ListRow', () => {
     await fireEvent.press(getByRole('button'))
     expect(onPress).toHaveBeenCalled()
   })
+
+  it('renders as a non-interactive row when no onPress', async () => {
+    const { queryByRole } = await render(<ListRow icon={House} title="Read-only" />)
+    expect(queryByRole('button')).toBeNull()
+  })
 })

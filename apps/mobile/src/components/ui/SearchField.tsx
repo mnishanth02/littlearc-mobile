@@ -17,7 +17,7 @@ export function SearchField({ style, ...rest }: TextInputProps) {
   return (
     <View style={styles.wrap}>
       <MagnifyingGlass size={18} color={c.textMuted} />
-      <TextInput placeholderTextColor={c.textMuted} style={[styles.input, style]} {...rest} />
+      <TextInput accessibilityLabel="Search" placeholderTextColor={c.textMuted} style={[styles.input, style]} {...rest} />
     </View>
   )
 }

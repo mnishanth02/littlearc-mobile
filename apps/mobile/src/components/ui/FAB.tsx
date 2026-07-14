@@ -16,10 +16,15 @@ const styles = StyleSheet.create(theme => ({
   },
 }))
 
-export function FAB({ accessibilityLabel = 'Add', ...rest }: Props) {
+export function FAB({ accessibilityLabel = 'Add', style, ...rest }: Props) {
   const c = UnistylesRuntime.getTheme().colors
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={accessibilityLabel} style={styles.fab} {...rest}>
+    <Pressable
+      {...rest}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      style={(state) => [styles.fab, typeof style === 'function' ? style(state) : style]}
+    >
       <Plus size={28} color={c.onPrimary} weight="bold" />
     </Pressable>
   )

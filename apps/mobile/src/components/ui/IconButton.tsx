@@ -18,12 +18,17 @@ const styles = StyleSheet.create(theme => ({
   },
 }))
 
-export function IconButton({ icon: Icon, variant = 'neutral', accessibilityLabel, ...rest }: Props) {
+export function IconButton({ icon: Icon, variant = 'neutral', accessibilityLabel, style, ...rest }: Props) {
   styles.useVariants({ variant })
   const c = UnistylesRuntime.getTheme().colors
   const color = variant === 'danger' ? c.dangerText : variant === 'tinted' ? c.accent : c.textSecondary
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={accessibilityLabel} style={styles.btn} {...rest}>
+    <Pressable
+      {...rest}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      style={(state) => [styles.btn, typeof style === 'function' ? style(state) : style]}
+    >
       <Icon size={20} color={color} weight="regular" />
     </Pressable>
   )
