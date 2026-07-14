@@ -1,0 +1,68 @@
+import { View } from 'react-native'
+import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
+import { Phone, FirstAidKit, Drop, Warning } from 'phosphor-react-native'
+import { Text } from '../ui/Text'
+import { Button } from '../ui/Button'
+
+type Contact = { name: string; role: string; phone: string }
+type Props = {
+  bloodGroup: string
+  allergies: string[]
+  paediatrician: Contact
+  contacts: Contact[]
+  onCall?: (phone: string) => void
+}
+
+const styles = StyleSheet.create(theme => ({
+  card: { borderRadius: theme.radius.lg, overflow: 'hidden', backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.border },
+  header: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm, backgroundColor: theme.colors.danger, paddingVertical: 12, paddingHorizontal: 16 },
+  section: { paddingHorizontal: 16, paddingVertical: 12, gap: 4, borderTopWidth: 1, borderTopColor: theme.colors.border },
+  inline: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
+  contactRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md, paddingVertical: 8 },
+  contactMid: { flex: 1 },
+}))
+
+export function EmergencyCard({ bloodGroup, allergies, paediatrician, contacts, onCall }: Props) {
+  const c = UnistylesRuntime.getTheme().colors
+  const allergyText = allergies.length ? allergies.join(', ') : 'None recorded'
+  return (
+    <View style={styles.card} accessibilityLabel="Emergency information">
+      <View style={styles.header}>
+        <Warning size={22} color={c.onDanger} weight="fill" />
+        <Text variant="h3" style={{ color: c.onDanger }}>Emergency</Text>
+      </View>
+
+      <View style={styles.section} accessibilityLabel={`Blood group ${bloodGroup}`}>
+        <View style={styles.inline}>
+          <Drop size={18} color={c.dangerText} weight="fill" />
+          <Text variant="label" tone="muted">BLOOD GROUP</Text>
+        </View>
+        <Text variant="h2">{bloodGroup}</Text>
+      </View>
+
+      <View style={styles.section} accessibilityLabel={`Allergies: ${allergyText}`}>
+        <View style={styles.inline}>
+          <Warning size={18} color={c.warningText} weight="fill" />
+          <Text variant="label" tone="muted">ALLERGIES</Text>
+        </View>
+        <Text variant="bodyEmphasis">{allergyText}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <View style={styles.inline}>
+          <FirstAidKit size={18} color={c.infoText} weight="fill" />
+          <Text variant="label" tone="muted">PAEDIATRICIAN & CONTACTS</Text>
+        </View>
+        {[paediatrician, ...contacts].map((ct, i) => (
+          <View key={`${ct.phone}-${i}`} style={styles.contactRow} accessibilityLabel={`${ct.role}, ${ct.name}, ${ct.phone}`}>
+            <View style={styles.contactMid}>
+              <Text variant="bodyEmphasis">{ct.name}</Text>
+              <Text variant="caption" tone="muted">{ct.role} · {ct.phone}</Text>
+            </View>
+            <Button label="Call" intent="danger" size="md" leftIcon={Phone} onPress={() => onCall?.(ct.phone)} />
+          </View>
+        ))}
+      </View>
+    </View>
+  )
+}
