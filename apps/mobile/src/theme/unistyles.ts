@@ -3,23 +3,9 @@ import { lightTheme } from './tokens/light'
 import { darkTheme } from './tokens/dark'
 import { breakpoints } from './breakpoints'
 
-// Compile-time guarantee that light and dark expose identical token KEYS
-// (values intentionally differ). Any key added to one theme but not the
-// other — at the theme, colours, or module-accent level — fails tsc here.
-type ExactKeys<A, B> = [keyof A] extends [keyof B]
-  ? ([keyof B] extends [keyof A] ? true : never)
-  : never
-
-const _themeKeys: ExactKeys<typeof lightTheme, typeof darkTheme> = true
-const _colorKeys: ExactKeys<typeof lightTheme['colors'], typeof darkTheme['colors']> = true
-const _moduleKeys: ExactKeys<
-  typeof lightTheme['colors']['modules'],
-  typeof darkTheme['colors']['modules']
-> = true
-void _themeKeys
-void _colorKeys
-void _moduleKeys
-
+// Light/dark shape parity is enforced at the source: both themes are declared
+// `as const satisfies Theme` in tokens/light.ts and tokens/dark.ts, so any key
+// drift (including nested module accents) fails tsc there.
 const themes = { light: lightTheme, dark: darkTheme }
 type AppThemes = typeof themes
 type AppBreakpoints = typeof breakpoints
