@@ -1,4 +1,3 @@
-import '../src/theme/unistyles' // registers themes before first render
 import { useEffect } from 'react'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
