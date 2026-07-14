@@ -59,7 +59,9 @@ Key decisions locked in this document:
 | Bottom sheets | **`@gorhom/bottom-sheet`** | Capture flow, pickers, contextual actions. |
 | Deferred | **Skia** | Not in MVP; revisit only if we need custom canvas rendering. |
 
-**Environment (verify exact versions at bootstrap):** Expo SDK 55+, React Native 0.83+, React 19, Hermes, **New Architecture mandatory**. These match the architecture baseline; pin exact versions in `package.json` when the project is scaffolded.
+**Environment (verified at bootstrap, 2025):** Expo SDK **57.0.4**, React Native **0.86.0**, React **19.2.3**, TypeScript **6.0.3**, Hermes, **New Architecture enabled** (`newArchEnabled: true`). Config lives in `app.json` (Expo CLI-maintained). Styling/motion stack pinned: `react-native-unistyles` **3.3.0** (+ `react-native-nitro-modules` 0.36.1, `react-native-edge-to-edge` 1.8.1), `react-native-reanimated` **4.5.0** (+ `react-native-worklets` 0.10.0), `react-native-gesture-handler` 2.32.0, `react-native-svg` 15.15.4, `phosphor-react-native` 3.0.6, `expo-image` 57, `@shopify/flash-list` 2.0.2, `@gorhom/bottom-sheet` 5.2.14, `lottie-react-native` 7.3.8, `expo-haptics` 57. Fonts via `@expo-google-fonts/{hanken-grotesk,baloo-2,noto-sans-devanagari}`. Test toolchain: `jest-expo` 57 (Jest 29) + `@testing-library/react-native` 14. Package manager pnpm 11 (Node 22).
+
+> **Pending device gate:** the Unistyles `StyleSheet.configure` Android launch check (risk table §14 / §3.1) is deferred until the Phase 1 theme layer exists — there is no runtime Unistyles usage to exercise until then. Run `pnpm expo run:android` at the end of Phase 1 and record the result here.
 
 ### 3.1 Why Unistyles over NativeWind
 
