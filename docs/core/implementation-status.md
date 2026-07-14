@@ -20,7 +20,7 @@
 
 **Read this before touching any roadmap work.** Keep it in sync — an out-of-date tracker is worse than none.
 
-1. **Before you start a WP:** set its status to `◐ In progress`, and in the Note put the date + branch (e.g. `2026-07-14 · development`). Add it to **Current focus** below. Add a **Changelog** line.
+1. **Before you start a WP:** write its detailed implementation plan under `docs/impl-plan/<MILESTONE>/<WP-ID>-<slug>.md` (via `superpowers:writing-plans`; see `docs/impl-plan/README.md`). Then set its status here to `◐ In progress`, and in the Note put the date + branch (e.g. `2026-07-14 · development`). Add it to **Current focus** below. Add a **Changelog** line.
 2. **When a WP is done:** set it to `✅ Done`, put the commit SHA in the Note, remove it from **Current focus**, add a **Changelog** line, and update the milestone summary count.
 3. **If a WP is blocked:** set `⛔ Blocked` and write the one-line reason + what unblocks it in the Note.
 4. **If a WP is intentionally not being done now:** set `⏸ Deferred` and write the trigger (when it becomes needed) in the Note.
@@ -232,4 +232,5 @@ Prereq: M3 exit. REL-01–06 should be substantially complete entering M6.
 
 ## Changelog
 
+- **2026-07-14** — Established `docs/impl-plan/` as the home for detailed WP implementation plans (convention: `docs/impl-plan/<MILESTONE>/<WP-ID>-<slug>.md`; see its README). Moved the completed `design-system-implementation-plan.md` there from `docs/core/`. Updated roadmap §0, this protocol, and `AGENTS.md` to point at it.
 - **2026-07-14** — Created this tracker. M0 recorded as ✅ lean-complete (PLAT-00, OBS-01, DEC-ALL done; REL-01–05 deferred with triggers) per decision lock `293f730`. Design System Phases 0–4 recorded ✅ (already built + pushed). M1–M6 seeded as not-started.

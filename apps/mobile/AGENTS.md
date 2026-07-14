@@ -1,6 +1,6 @@
 # Implementation status — READ & UPDATE
 
-Before starting any roadmap work, read `docs/core/implementation-status.md` (the single source of truth for what is done / in progress / next). When you **start**, **finish**, **block**, or **defer** a work package, update that file immediately per its "update protocol" section. Roadmap detail lives in `docs/core/implementation-roadmap.md`.
+Before starting any roadmap work, read `docs/core/implementation-status.md` (the single source of truth for what is done / in progress / next). When you **start**, **finish**, **block**, or **defer** a work package, update that file immediately per its "update protocol" section. Roadmap detail lives in `docs/core/implementation-roadmap.md`. Detailed implementation plans are written to `docs/impl-plan/<MILESTONE>/<WP-ID>-<slug>.md` (see `docs/impl-plan/README.md`) — not the writing-plans default location.
 
 # Expo HAS CHANGED
 
