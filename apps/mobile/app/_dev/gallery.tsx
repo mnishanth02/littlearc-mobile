@@ -1,4 +1,6 @@
 import { ScrollView, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Redirect } from 'expo-router'
 import { StyleSheet } from 'react-native-unistyles'
 import { Camera, Bell, IdentificationCard } from 'phosphor-react-native'
 import {
@@ -24,8 +26,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function Gallery() {
+  const insets = useSafeAreaInsets()
+  if (!__DEV__) return <Redirect href="/today" />
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
       <Button label="Toggle light / dark" intent="secondary" onPress={toggleTheme} />
 
       <Section title="Buttons">

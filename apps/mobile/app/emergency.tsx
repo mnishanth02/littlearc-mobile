@@ -1,4 +1,5 @@
 import { ScrollView, View, Linking } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { StyleSheet } from 'react-native-unistyles'
 import { X } from 'phosphor-react-native'
@@ -12,8 +13,9 @@ const styles = StyleSheet.create(theme => ({
 }))
 
 export default function EmergencyScreen() {
+  const insets = useSafeAreaInsets()
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
       <View style={styles.header}>
         <Text variant="h1">Emergency</Text>
         <IconButton icon={X} accessibilityLabel="Close" onPress={() => router.back()} />
