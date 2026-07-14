@@ -1,15 +1,19 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "LittleArc",
+    "slug": "littlearc",
+    "scheme": "littlearc",
     "version": "1.0.0",
+    "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.littlearc.app"
     },
     "android": {
+      "package": "com.littlearc.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -20,6 +24,13 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar"
+    ],
+    "experiments": {
+      "typedRoutes": true
     }
   }
 }
