@@ -30,7 +30,8 @@
       "expo-status-bar",
       "react-native-edge-to-edge",
       "expo-font",
-      "expo-image"
+      "expo-image",
+      "expo-splash-screen"
     ],
     "experiments": {
       "typedRoutes": true
