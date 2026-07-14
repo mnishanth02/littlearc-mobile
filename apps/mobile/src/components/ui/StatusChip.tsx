@@ -2,6 +2,7 @@ import { View } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
 import { Text } from './Text'
 import { STATUS, StatusKind } from './status'
+import { fonts } from '../../theme/tokens/typography'
 
 type Props = { kind: StatusKind; label?: string }
 
@@ -29,9 +30,9 @@ export function StatusChip({ kind, label }: Props) {
   const Icon = spec.icon
   const text = label ?? spec.defaultLabel
   return (
-    <View style={styles.chip} accessibilityRole="text" accessibilityLabel={text}>
+    <View style={styles.chip} accessible accessibilityRole="text" accessibilityLabel={text}>
       <Icon size={14} color={textColor} weight="fill" />
-      <Text variant="caption" style={{ color: textColor, fontFamily: 'HankenGrotesk_700Bold' }}>{text}</Text>
+      <Text variant="caption" style={{ color: textColor, fontFamily: fonts.ui700 }}>{text}</Text>
     </View>
   )
 }

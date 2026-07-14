@@ -17,4 +17,13 @@ describe('Button', () => {
     await fireEvent.press(btn)
     expect(onPress).not.toHaveBeenCalled()
   })
+
+  it('does not fire onPress while loading and reports disabled state', async () => {
+    const onPress = jest.fn()
+    const { getByRole } = await render(<Button label="Saving" loading onPress={onPress} />)
+    const btn = getByRole('button')
+    expect(btn.props.accessibilityState.disabled).toBe(true)
+    await fireEvent.press(btn)
+    expect(onPress).not.toHaveBeenCalled()
+  })
 })

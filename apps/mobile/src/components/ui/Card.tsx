@@ -29,6 +29,6 @@ const styles = StyleSheet.create(theme => ({
 }))
 
 export function Card({ elevated = true, padded = true, style, ...rest }: Props) {
-  styles.useVariants({ elevated: elevated.toString() as 'true' | 'false', padded: padded.toString() as 'true' | 'false' })
+  styles.useVariants({ elevated, padded })
   return <View style={[styles.card, style]} {...rest} />
 }

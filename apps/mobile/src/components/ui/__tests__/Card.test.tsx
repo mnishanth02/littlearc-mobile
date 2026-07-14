@@ -7,4 +7,11 @@ describe('Card', () => {
     const { getByText } = await render(<Card><RNText>Inside</RNText></Card>)
     expect(getByText('Inside')).toBeTruthy()
   })
+
+  it('merges an external style', async () => {
+    const { getByTestId } = await render(
+      <Card testID="card" style={{ marginTop: 8 }}><RNText>Inside</RNText></Card>,
+    )
+    expect(getByTestId('card')).toHaveStyle({ marginTop: 8 })
+  })
 })

@@ -36,26 +36,30 @@ const styles = StyleSheet.create(theme => ({
         danger: { backgroundColor: theme.colors.dangerTint },
       },
       size: {
-        md: { paddingVertical: 12, paddingHorizontal: 20 },
-        lg: { paddingVertical: 16, paddingHorizontal: 24 },
+        md: { paddingVertical: theme.space.md, paddingHorizontal: theme.space.xl },
+        lg: { paddingVertical: theme.space.lg, paddingHorizontal: theme.space['2xl'] },
       },
       disabled: { true: { opacity: 0.5 }, false: {} },
     },
   },
 }))
 
-export function Button({ label, intent = 'primary', size = 'md', leftIcon: Icon, loading = false, disabled = false, ...rest }: Props) {
+export function Button({ label, intent = 'primary', size = 'md', leftIcon: Icon, loading = false, disabled = false, style, ...rest }: Props) {
   const isDisabled = disabled || loading
   styles.useVariants({ intent, size, disabled: isDisabled })
   const c = UnistylesRuntime.getTheme().colors
   const iconColor = intent === 'primary' ? c.onPrimary : intent === 'danger' ? c.dangerText : c.accent
   return (
     <Pressable
-      accessibilityRole="button"
-      accessibilityState={{ disabled: isDisabled }}
-      disabled={isDisabled}
-      style={({ pressed }) => [styles.base, pressed && !isDisabled ? { opacity: 0.85 } : null]}
       {...rest}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
+      disabled={isDisabled}
+      style={(state) => [
+        styles.base,
+        state.pressed && !isDisabled ? { opacity: 0.85 } : null,
+        typeof style === 'function' ? style(state) : style,
+      ]}
     >
       {loading ? <ActivityIndicator color={iconColor} /> : Icon ? <Icon size={18} color={iconColor} weight="fill" /> : null}
       <Text variant="bodyEmphasis" tone={TEXT_TONE[intent]}>{label}</Text>
