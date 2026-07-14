@@ -1,4 +1,4 @@
-import { View, Pressable } from 'react-native'
+import { View, Pressable, Platform } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import type { BottomTabBarProps } from 'expo-router/js-tabs'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
@@ -24,7 +24,7 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets()
   const c = UnistylesRuntime.getTheme().colors
   return (
-    <View style={[styles.bar, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+    <View accessibilityRole="tablist" style={[styles.bar, { paddingBottom: Math.max(insets.bottom, 8) }]}>
       {state.routes.map((route, index) => {
         const cfg = TABS[route.name]
         if (!cfg) return null
@@ -35,13 +35,17 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
           const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true })
           if (!focused && !event.defaultPrevented) navigation.navigate(route.name)
         }
+        const onLongPress = () => {
+          navigation.emit({ type: 'tabLongPress', target: route.key })
+        }
         return (
           <Pressable
             key={route.key}
-            accessibilityRole="button"
+            accessibilityRole={Platform.select({ ios: 'button', default: 'tab' })}
             accessibilityState={{ selected: focused }}
-            accessibilityLabel={cfg.label}
+            accessibilityLabel={Platform.OS === 'ios' ? `${cfg.label}, tab, ${index + 1} of ${state.routes.length}` : cfg.label}
             onPress={onPress}
+            onLongPress={onLongPress}
             style={styles.tab}
           >
             <Icon size={26} color={color} weight={focused ? 'fill' : 'regular'} />

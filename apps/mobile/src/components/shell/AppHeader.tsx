@@ -30,6 +30,7 @@ export function AppHeader({ childName, childAvatarUri, onPressChild, onPressEmer
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={`Switch child, current ${childName}`}
+          accessibilityHint="Opens child selector"
           onPress={onPressChild}
           style={styles.switcher}
         >
