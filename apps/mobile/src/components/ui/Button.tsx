@@ -23,7 +23,14 @@ const styles = StyleSheet.create(theme => ({
     borderRadius: theme.radius.pill, minHeight: 44,
     variants: {
       intent: {
-        primary: { backgroundColor: theme.colors.primary, ...theme.shadow.sm },
+        primary: {
+          backgroundColor: theme.colors.primary,
+          shadowColor: theme.shadow.sm.shadowColor,
+          shadowOpacity: theme.shadow.sm.shadowOpacity,
+          shadowRadius: theme.shadow.sm.shadowRadius,
+          shadowOffset: theme.shadow.sm.shadowOffset,
+          elevation: theme.shadow.sm.elevation,
+        },
         secondary: { backgroundColor: theme.colors.primaryTint },
         ghost: { backgroundColor: 'transparent' },
         danger: { backgroundColor: theme.colors.dangerTint },
