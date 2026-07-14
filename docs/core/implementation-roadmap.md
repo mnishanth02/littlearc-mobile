@@ -14,6 +14,8 @@ This document sequences **work**, not code. It does not restate the product plan
 
 Every work package (WP) listed below is a planning unit, not an implementation plan. **Before writing code for any work package, the owning engineer or agent must first produce a bite-sized, test-driven implementation plan for that specific work package using `superpowers:writing-plans`, then execute it with `superpowers:subagent-driven-development` or `superpowers:executing-plans`.** No work package is "ready to code" until this sub-plan exists; this roadmap intentionally stops at the granularity of a milestone/work-package spine so that each package can be independently planned, reviewed, staffed, and tested.
 
+**Live status.** The current done / in-progress / next state of every work package is tracked in `docs/core/implementation-status.md`. That file is the single source of truth for progress; update it whenever a work package starts, completes, blocks, or is deferred.
+
 ---
 
 ## 1. Document Purpose, Authoritative Inputs, and Scope Boundaries
