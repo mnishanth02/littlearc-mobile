@@ -24,7 +24,10 @@ jest.mock('react-native-unistyles', () => {
     return o
   }
   const theme = deepFreeze(lightTheme)
-  const rt = { insets: { top: 0, bottom: 0, left: 0, right: 0 }, screen: { width: 375, height: 812 } }
+  const rt = {
+    insets: { top: 0, bottom: 0, left: 0, right: 0 },
+    screen: { width: 375, height: 812 },
+  }
   const strip = (o: any) => {
     if (!o || typeof o !== 'object' || Array.isArray(o)) return o
     const { variants, compoundVariants, ...rest } = o
@@ -39,6 +42,11 @@ jest.mock('react-native-unistyles', () => {
   }
   return {
     StyleSheet: { create, configure: () => {} },
-    UnistylesRuntime: { themeName: 'light', getTheme: () => theme, setTheme: jest.fn(), setAdaptiveThemes: jest.fn() },
+    UnistylesRuntime: {
+      themeName: 'light',
+      getTheme: () => theme,
+      setTheme: jest.fn(),
+      setAdaptiveThemes: jest.fn(),
+    },
   }
 })

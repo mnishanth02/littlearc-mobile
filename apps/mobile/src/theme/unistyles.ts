@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native-unistyles'
-import { lightTheme } from './tokens/light'
-import { darkTheme } from './tokens/dark'
 import { breakpoints } from './breakpoints'
+import { darkTheme } from './tokens/dark'
+import { lightTheme } from './tokens/light'
 
 // Light/dark shape parity is enforced at the source: both themes are declared
 // `as const satisfies Theme` in tokens/light.ts and tokens/dark.ts, so any key

@@ -1,9 +1,9 @@
+import { MusicNotes, PuzzlePiece, Sparkle } from 'phosphor-react-native'
 import { ScrollView, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { Sparkle, MusicNotes, PuzzlePiece } from 'phosphor-react-native'
-import { Text, Tag, Card } from '../../src/components/ui'
+import { Card, Tag, Text } from '../../src/components/ui'
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   screen: { flex: 1, backgroundColor: theme.colors.bg },
   content: { padding: theme.space.lg, gap: theme.space.lg },
   tags: { flexDirection: 'row', gap: theme.space.sm, flexWrap: 'wrap' },
@@ -22,7 +22,9 @@ export default function ActivitiesScreen() {
       <Card>
         <View style={styles.cardBody}>
           <Text variant="h3">Peek-a-boo</Text>
-          <Text variant="body" tone="secondary">Builds object permanence — perfect for 12–18 months.</Text>
+          <Text variant="body" tone="secondary">
+            Builds object permanence — perfect for 12–18 months.
+          </Text>
         </View>
       </Card>
     </ScrollView>

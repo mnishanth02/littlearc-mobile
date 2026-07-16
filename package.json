@@ -1,0 +1,24 @@
+{
+  "name": "littlearc",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@11.13.0",
+  "engines": {
+    "node": ">=22.17.0 <23.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "db:migrate": "pnpm --filter @littlearc/db run db:migrate",
+    "db:seed": "pnpm --filter @littlearc/db run db:seed"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.3",
+    "turbo": "2.10.5"
+  }
+}

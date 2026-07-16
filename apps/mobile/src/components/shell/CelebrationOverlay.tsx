@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
-import { View, Modal } from 'react-native'
+import * as Haptics from 'expo-haptics'
 import type { AnimationObject } from 'lottie-react-native'
 import LottieView from 'lottie-react-native'
-import * as Haptics from 'expo-haptics'
+import { useEffect } from 'react'
+import { Modal, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { Text } from '../ui/Text'
 import { useReduceMotion } from '../../lib/a11y'
+import { Text } from '../ui/Text'
 
 type Props = {
   visible: boolean
@@ -14,8 +14,14 @@ type Props = {
   onDone?: () => void
 }
 
-const styles = StyleSheet.create(theme => ({
-  backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(19,16,25,0.55)', padding: theme.space['3xl'] },
+const styles = StyleSheet.create((theme) => ({
+  backdrop: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(19,16,25,0.55)',
+    padding: theme.space['3xl'],
+  },
   card: {
     alignItems: 'center',
     gap: theme.space.lg,
@@ -34,6 +40,7 @@ const styles = StyleSheet.create(theme => ({
 export function CelebrationOverlay({ visible, title, source, onDone }: Props) {
   const reduce = useReduceMotion()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: onDone is read inside the reduced-motion timeout by design; adding it as a dependency would restart the timer whenever the parent passes a new inline callback identity.
   useEffect(() => {
     if (!visible) return
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {})
@@ -57,7 +64,9 @@ export function CelebrationOverlay({ visible, title, source, onDone }: Props) {
               onAnimationFinish={onDone}
             />
           ) : null}
-          <Text variant="display" tone="accent" style={{ textAlign: 'center' }}>{title}</Text>
+          <Text variant="display" tone="accent" style={{ textAlign: 'center' }}>
+            {title}
+          </Text>
         </View>
       </View>
     </Modal>

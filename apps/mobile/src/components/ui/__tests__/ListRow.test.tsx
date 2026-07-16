@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import { House } from 'phosphor-react-native'
 import { ListRow } from '../ListRow'
 

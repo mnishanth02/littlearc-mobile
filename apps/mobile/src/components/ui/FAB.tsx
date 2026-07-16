@@ -1,12 +1,16 @@
-import { Pressable, PressableProps } from 'react-native'
-import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
 import { Plus } from 'phosphor-react-native'
+import { Pressable, type PressableProps } from 'react-native'
+import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
 
 type Props = Omit<PressableProps, 'children'> & { accessibilityLabel?: string }
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   fab: {
-    width: 58, height: 58, borderRadius: theme.radius.xl, alignItems: 'center', justifyContent: 'center',
+    width: 58,
+    height: 58,
+    borderRadius: theme.radius.xl,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: theme.colors.primary,
     shadowColor: theme.shadow.md.shadowColor,
     shadowOpacity: theme.shadow.md.shadowOpacity,

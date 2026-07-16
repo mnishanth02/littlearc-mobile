@@ -1,15 +1,19 @@
 import { View } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
-import { Text } from './Text'
-import { STATUS, StatusKind } from './status'
 import { fonts } from '../../theme/tokens/typography'
+import { STATUS, type StatusKind } from './status'
+import { Text } from './Text'
 
 type Props = { kind: StatusKind; label?: string }
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   chip: {
-    flexDirection: 'row', alignItems: 'center', gap: 5,
-    paddingVertical: 5, paddingHorizontal: 11, borderRadius: theme.radius.pill,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 11,
+    borderRadius: theme.radius.pill,
     alignSelf: 'flex-start',
     variants: {
       tone: {
@@ -26,13 +30,20 @@ export function StatusChip({ kind, label }: Props) {
   const spec = STATUS[kind]
   styles.useVariants({ tone: spec.toneKey })
   const c = UnistylesRuntime.getTheme().colors
-  const textColor = { success: c.successText, warning: c.warningText, danger: c.dangerText, info: c.infoText }[spec.toneKey]
+  const textColor = {
+    success: c.successText,
+    warning: c.warningText,
+    danger: c.dangerText,
+    info: c.infoText,
+  }[spec.toneKey]
   const Icon = spec.icon
   const text = label ?? spec.defaultLabel
   return (
     <View style={styles.chip} accessible accessibilityRole="text" accessibilityLabel={text}>
       <Icon size={14} color={textColor} weight="fill" />
-      <Text variant="caption" style={{ color: textColor, fontFamily: fonts.ui700 }}>{text}</Text>
+      <Text variant="caption" style={{ color: textColor, fontFamily: fonts.ui700 }}>
+        {text}
+      </Text>
     </View>
   )
 }

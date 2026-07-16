@@ -1,0 +1,142 @@
+name: CI
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+
+jobs:
+  quality:
+    name: Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - uses: pnpm/action-setup@v6.0.9
+        with:
+          version: 11.13.0
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build (includes Expo export for @littlearc/mobile)
+        run: pnpm build
+
+      - name: Unit tests (packages that do not require PostgreSQL)
+        run: pnpm exec turbo run test --filter='!@littlearc/api' --filter='!@littlearc/db'
+
+      - name: Mobile bundle leak check
+        run: pnpm --filter @littlearc/mobile run test:bundle-leak
+
+  integration:
+    name: Integration (PostgreSQL)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16.14
+        env:
+          POSTGRES_USER: littlearc
+          POSTGRES_PASSWORD: littlearc
+          POSTGRES_DB: littlearc
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U littlearc -d littlearc"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://littlearc:littlearc@localhost:5432/littlearc
+      NODE_ENV: test
+      API_HOST: 0.0.0.0
+      API_PORT: 3000
+      LOG_LEVEL: info
+      CORS_ALLOWED_ORIGINS: http://localhost:8081
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - uses: pnpm/action-setup@v6.0.9
+        with:
+          version: 11.13.0
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Migrate from zero
+        run: pnpm db:migrate
+
+      - name: Seed
+        run: pnpm db:seed
+
+      - name: packages/db tests (real migration-from-zero + idempotent seed)
+        run: pnpm --filter @littlearc/db run test
+
+      - name: apps/api tests (real Fastify listener + real tRPC HTTP client + real PostgreSQL query)
+        run: pnpm --filter @littlearc/api run test
+
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks (checksum-verified)
+        run: |
+          curl -sSL -o gitleaks_8.30.1_linux_x64.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks_8.30.1_linux_x64.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks_8.30.1_linux_x64.tar.gz gitleaks
+          sudo mv gitleaks /usr/local/bin/gitleaks
+          rm gitleaks_8.30.1_linux_x64.tar.gz
+          gitleaks version
+
+      - name: Run gitleaks (exit-code enforced)
+        run: gitleaks detect --source . --no-banner --exit-code 1
+
+      - uses: pnpm/action-setup@v6.0.9
+        with:
+          version: 11.13.0
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: pnpm audit (high severity and above)
+        run: pnpm audit --audit-level=high
+
+  container:
+    name: Container (build only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - uses: docker/setup-buildx-action@v4.2.0
+
+      - name: Build production API image (never pushed)
+        uses: docker/build-push-action@v7.3.0
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          push: false
+          tags: littlearc/api:ci

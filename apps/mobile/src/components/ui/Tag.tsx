@@ -1,15 +1,26 @@
-import { View, StyleProp, ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
-import { Text } from './Text'
-import type { PhIcon } from './Icon'
 import type { ModuleKey } from '../../theme/tokens/contract'
+import type { PhIcon } from './Icon'
+import { Text } from './Text'
 
-type Props = { label: string; module: ModuleKey; icon?: PhIcon; style?: StyleProp<ViewStyle>; testID?: string }
+type Props = {
+  label: string
+  module: ModuleKey
+  icon?: PhIcon
+  style?: StyleProp<ViewStyle>
+  testID?: string
+}
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   tag: {
-    flexDirection: 'row', alignItems: 'center', gap: 5,
-    paddingVertical: 5, paddingHorizontal: 11, borderRadius: theme.radius.pill, alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 11,
+    borderRadius: theme.radius.pill,
+    alignSelf: 'flex-start',
     variants: {
       module: {
         today: { backgroundColor: theme.colors.modules.today.tint },
@@ -28,7 +39,9 @@ export function Tag({ label, module, icon: Icon, style, testID }: Props) {
   return (
     <View style={[styles.tag, style]} testID={testID}>
       {Icon ? <Icon size={13} color={color} weight="fill" /> : null}
-      <Text variant="label" style={{ color, fontSize: 11, letterSpacing: 0.6 }}>{label.toUpperCase()}</Text>
+      <Text variant="label" style={{ color, fontSize: 11, letterSpacing: 0.6 }}>
+        {label.toUpperCase()}
+      </Text>
     </View>
   )
 }

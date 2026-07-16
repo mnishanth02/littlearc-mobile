@@ -1,15 +1,26 @@
+import { Redirect } from 'expo-router'
+import { Bell, Camera, IdentificationCard } from 'phosphor-react-native'
 import { ScrollView, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Redirect } from 'expo-router'
 import { StyleSheet } from 'react-native-unistyles'
-import { Camera, Bell, IdentificationCard } from 'phosphor-react-native'
 import {
-  Text, Button, IconButton, FAB, TextField, SearchField,
-  Chip, Tag, StatusChip, Card, ListRow, InfoCard, Avatar,
+  Avatar,
+  Button,
+  Card,
+  Chip,
+  FAB,
+  IconButton,
+  InfoCard,
+  ListRow,
+  SearchField,
+  StatusChip,
+  Tag,
+  Text,
+  TextField,
 } from '../../src/components/ui'
 import { toggleTheme } from '../../src/theme/useAppTheme'
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   screen: { flex: 1, backgroundColor: theme.colors.bg },
   content: { padding: theme.space.lg, gap: theme.space['2xl'] },
   section: { gap: theme.space.md },
@@ -19,7 +30,9 @@ const styles = StyleSheet.create(theme => ({
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <View style={styles.section}>
-      <Text variant="label" tone="muted">{title.toUpperCase()}</Text>
+      <Text variant="label" tone="muted">
+        {title.toUpperCase()}
+      </Text>
       {children}
     </View>
   )
@@ -29,7 +42,10 @@ export default function Gallery() {
   const insets = useSafeAreaInsets()
   if (!__DEV__) return <Redirect href="/today" />
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
+    >
       <Button label="Toggle light / dark" intent="secondary" onPress={toggleTheme} />
 
       <Section title="Buttons">
@@ -69,8 +85,20 @@ export default function Gallery() {
       <Section title="Cards · Rows">
         <InfoCard icon={Bell} title="Next up: MMR dose" subtitle="Due in 6 days" />
         <Card padded={false}>
-          <ListRow module="vault" icon={IdentificationCard} title="Birth certificate" subtitle="PDF · Jun 2" onPress={() => {}} />
-          <ListRow module="activities" icon={Camera} title="Photo album" subtitle="24 items" right={<StatusChip kind="success" />} />
+          <ListRow
+            module="vault"
+            icon={IdentificationCard}
+            title="Birth certificate"
+            subtitle="PDF · Jun 2"
+            onPress={() => {}}
+          />
+          <ListRow
+            module="activities"
+            icon={Camera}
+            title="Photo album"
+            subtitle="24 items"
+            right={<StatusChip kind="success" />}
+          />
         </Card>
         <View style={styles.row}>
           <Avatar name="Meera" size={48} />

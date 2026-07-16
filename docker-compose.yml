@@ -1,0 +1,72 @@
+services:
+  postgres:
+    image: postgres:16.14
+    container_name: littlearc-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-littlearc}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-littlearc}
+      POSTGRES_DB: ${POSTGRES_DB:-littlearc}
+    ports:
+      - "5432:5432"
+    volumes:
+      - littlearc_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    container_name: littlearc-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-littlearc}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-littlearc-local-dev}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - littlearc_minio_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "mc alias set healthcheck http://localhost:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD && mc ready healthcheck"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:v1.30.4
+    container_name: littlearc-mailpit
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    volumes:
+      - littlearc_mailpit_data:/data
+    environment:
+      MP_DATA_FILE: /data/mailpit.db
+    healthcheck:
+      test: ["CMD", "/mailpit", "readyz"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  clamav:
+    image: clamav/clamav:1.5.3-debian
+    container_name: littlearc-clamav
+    ports:
+      - "3310:3310"
+    volumes:
+      - littlearc_clamav_data:/var/lib/clamav
+    healthcheck:
+      test: ["CMD", "clamdcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 6m
+
+volumes:
+  littlearc_postgres_data:
+  littlearc_minio_data:
+  littlearc_mailpit_data:
+  littlearc_clamav_data:

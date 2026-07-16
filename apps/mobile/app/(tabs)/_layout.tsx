@@ -1,12 +1,12 @@
 import { router } from 'expo-router'
 import { Tabs } from 'expo-router/js-tabs'
-import { TabBar } from '../../src/components/shell/TabBar'
 import { AppHeader } from '../../src/components/shell/AppHeader'
+import { TabBar } from '../../src/components/shell/TabBar'
 
 export default function TabsLayout() {
   return (
     <Tabs
-      tabBar={props => <TabBar {...props} />}
+      tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
         header: () => (
           <AppHeader

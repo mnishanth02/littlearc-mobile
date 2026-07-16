@@ -1,10 +1,10 @@
+import { Camera } from 'phosphor-react-native'
 import { ScrollView } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { Camera } from 'phosphor-react-native'
-import { Text } from '../../src/components/ui'
 import { MemoryCard } from '../../src/components/shell/MemoryCard'
+import { Text } from '../../src/components/ui'
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   screen: { flex: 1, backgroundColor: theme.colors.bg },
   content: { padding: theme.space.lg, gap: theme.space.lg },
 }))

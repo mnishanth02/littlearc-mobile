@@ -1,9 +1,9 @@
-import { View, ViewProps } from 'react-native'
+import { View, type ViewProps } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 type Props = ViewProps & { elevated?: boolean; padded?: boolean }
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   card: {
     backgroundColor: theme.colors.surface,
     borderRadius: theme.radius.lg,

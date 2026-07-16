@@ -1,6 +1,6 @@
-import { render, fireEvent } from '@testing-library/react-native'
-import { Chip } from '../Chip'
+import { fireEvent, render } from '@testing-library/react-native'
 import { Avatar } from '../Avatar'
+import { Chip } from '../Chip'
 
 describe('small primitives', () => {
   it('Chip reflects selected state and fires onPress', async () => {

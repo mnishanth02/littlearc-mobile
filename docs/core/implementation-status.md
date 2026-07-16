@@ -12,7 +12,7 @@
 > Live progress tracker for the MVP roadmap (`docs/core/implementation-roadmap.md`).
 > Each row is a roadmap **work package (WP)**. This file mirrors roadmap §8 and §10.
 
-**Last updated:** 2026-07-14 · **Active branch:** `development`
+**Last updated:** 2026-07-15 · **Active branch:** `development`
 
 ---
 
@@ -34,7 +34,7 @@
 
 ## Current focus
 
-_Nothing actively in progress. Next up: **M1 — Platform bootstrap & vertical slice** (needs its own implementation plan first)._
+**M1 — Platform bootstrap & vertical slice:** Clusters 1–3 are staged and locally verified; OBS-02 is complete; PLAT-04 and PLAT-08 are blocked on external/manual evidence.
 
 ---
 
@@ -44,7 +44,7 @@ _Nothing actively in progress. Next up: **M1 — Platform bootstrap & vertical s
 |---|---|---|
 | Design System (Phases 0–4) | ✅ Done | 5 / 5 |
 | **M0** — Decisions / provisioning / threat groundwork | ✅ Lean-complete | 3 / 3 done · 5 deferred |
-| **M1** — Platform bootstrap + vertical slice | ☐ Not started | 0 / 12 |
+| **M1** — Platform bootstrap + vertical slice | ◐ In progress | 1 / 12 done · 7 in progress · 2 blocked |
 | **M2** — Native feasibility + auth/org/RLS | ☐ Not started | 0 / 19 |
 | **M3** — Wedge (vault / smart capture / health / timeline / reminders) | ☐ Not started | 0 / 23 |
 | **M4** — Family coordination | ☐ Not started | 0 / 5 |
@@ -84,22 +84,22 @@ Scope decided **Lean M0** (solo/bootstrapped): lock reversible decisions + produ
 
 ---
 
-## M1 — Workspace/Platform Bootstrap and One-Call Vertical Slice  ·  ☐ Not started
+## M1 — Workspace/Platform Bootstrap and One-Call Vertical Slice  ·  ◐ In progress
 
-Prereq: PLAT-00 (✅). **Needs an implementation plan before execution.**
+Prereq: PLAT-00 (✅). Implementation plans: `docs/impl-plan/M1/`.
 
 | WP | Deliverable | Status | Note |
 |---|---|---|---|
-| PLAT-01 | pnpm workspace + Turborepo + Biome scaffold | ☐ | |
-| PLAT-02 | Shared TypeScript/Biome config package (`packages/config`) | ☐ | |
-| PLAT-03 | Docker Compose local stack (postgres, minio, mailpit, clamav) | ☐ | |
-| PLAT-04 | CI pipeline baseline (`.github/workflows/ci.yml`) | ☐ | |
-| PLAT-05 | `apps/api` skeleton: Fastify + tRPC + health + rate-limit framework | ☐ | |
-| PLAT-06 | `packages/contracts` skeleton (Zod conventions, base enums) | ☐ | |
-| PLAT-07 | `packages/api-types` type-only AppRouter export | ☐ | |
-| PLAT-08 | One-call vertical slice (Expo → tRPC → Fastify → Postgres) | ☐ | |
-| MOB-01 | Expo Router app skeleton bootstrap (New Arch confirmed) | ☐ | Note: design-system app already exists; reconcile with `app.config.ts` |
-| OBS-02 | `packages/observability` skeleton (allowlist + redaction stubs) | ☐ | |
+| PLAT-01 | pnpm workspace + Turborepo + Biome scaffold | ◐ In progress | 2026-07-15 · development · staged; local quality gates green; pending commit |
+| PLAT-02 | Shared TypeScript/Biome config package (`packages/config`) | ◐ In progress | 2026-07-15 · development · staged; typecheck green; pending commit |
+| PLAT-03 | Docker Compose local stack (postgres, minio, mailpit, clamav) | ◐ In progress | 2026-07-15 · development · staged; 4 services healthy and DB tests 5/5; pending commit |
+| PLAT-04 | CI pipeline baseline (`.github/workflows/ci.yml`) | ⛔ Blocked | 2026-07-15 · workflow/config implemented and local gates green; needs Docker Hub access for image build plus an authorized push for a real Actions run |
+| PLAT-05 | `apps/api` skeleton: Fastify + tRPC + health + rate-limit framework | ◐ In progress | 2026-07-15 · development · staged; API tests 21/21; pending commit |
+| PLAT-06 | `packages/contracts` skeleton (Zod conventions, base enums) | ◐ In progress | 2026-07-15 · development · staged; contracts tests 2/2; pending commit |
+| PLAT-07 | `packages/api-types` type-only AppRouter export | ◐ In progress | 2026-07-15 · development · staged; runtime boundary test green; pending commit |
+| PLAT-08 | One-call vertical slice (Expo → tRPC → Fastify → Postgres) | ⛔ Blocked | 2026-07-15 · automated gates green; Android success proven; needs an installed iOS Simulator runtime plus a stable Android outage/recovery capture |
+| MOB-01 | Expo Router app skeleton bootstrap (New Arch confirmed) | ◐ In progress | 2026-07-15 · development · staged; local tests/typecheck green; pending commit |
+| OBS-02 | `packages/observability` skeleton (allowlist + redaction stubs) | ✅ Done | 2026-07-15 · local typecheck green; 4/4 tests; workspace quality/integration gates green |
 | PLAT-09 | `tooling/scripts` skeleton (`backup.sh`, `restore-drill.sh`, seeds) | ☐ | |
 | PLAT-10 | Staging deploy: Railway (Singapore) + staging PG + R2 staging bucket | ☐ | Depends on PLAT-05/PLAT-08 |
 
@@ -232,5 +232,9 @@ Prereq: M3 exit. REL-01–06 should be substantially complete entering M6.
 
 ## Changelog
 
+- **2026-07-15** — Completed OBS-02 with empty compile/runtime-enforced event allowlist and sensitive-key redaction (`4/4` tests, typecheck green). Implemented PLAT-04 Dependabot, four-job CI workflow, and API Dockerfile; local quality/integration/audit gates are green, but PLAT-04 awaits a networked Docker build and authorized GitHub Actions run.
+- **2026-07-15** — Started PLAT-04/OBS-02 on `development` after PLAT-08 automated gates completed; implementing the existing CI/observability cluster plan.
+- **2026-07-15** — PLAT-08 automated gates green (`50/50` mobile tests, typecheck, bundle leak, frozen install, workspace test/typecheck/lint/build); Android returned the seeded PostgreSQL probe. Manual exit evidence is blocked because no iOS Simulator runtime is installed and the Android Dev Client showed a blank React surface after the forced outage restart.
+- **2026-07-15** — Resumed interrupted M1 work on `development`: Clusters 1–3 are staged and locally verified; started PLAT-08.
 - **2026-07-14** — Established `docs/impl-plan/` as the home for detailed WP implementation plans (convention: `docs/impl-plan/<MILESTONE>/<WP-ID>-<slug>.md`; see its README). Moved the completed `design-system-implementation-plan.md` there from `docs/core/`. Updated roadmap §0, this protocol, and `AGENTS.md` to point at it.
 - **2026-07-14** — Created this tracker. M0 recorded as ✅ lean-complete (PLAT-00, OBS-01, DEC-ALL done; REL-01–05 deferred with triggers) per decision lock `293f730`. Design System Phases 0–4 recorded ✅ (already built + pushed). M1–M6 seeded as not-started.

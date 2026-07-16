@@ -1,7 +1,7 @@
-import { Pressable, PressableProps, ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Pressable, type PressableProps } from 'react-native'
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles'
-import { Text } from './Text'
 import type { PhIcon } from './Icon'
+import { Text } from './Text'
 
 type Intent = 'primary' | 'secondary' | 'ghost' | 'danger'
 type Size = 'md' | 'lg'
@@ -14,13 +14,20 @@ type Props = Omit<PressableProps, 'children'> & {
 }
 
 const TEXT_TONE: Record<Intent, 'onPrimary' | 'accent' | 'danger'> = {
-  primary: 'onPrimary', secondary: 'accent', ghost: 'accent', danger: 'danger',
+  primary: 'onPrimary',
+  secondary: 'accent',
+  ghost: 'accent',
+  danger: 'danger',
 }
 
-const styles = StyleSheet.create(theme => ({
+const styles = StyleSheet.create((theme) => ({
   base: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.space.sm,
-    borderRadius: theme.radius.pill, minHeight: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.space.sm,
+    borderRadius: theme.radius.pill,
+    minHeight: 44,
     variants: {
       intent: {
         primary: {
@@ -44,11 +51,21 @@ const styles = StyleSheet.create(theme => ({
   },
 }))
 
-export function Button({ label, intent = 'primary', size = 'md', leftIcon: Icon, loading = false, disabled = false, style, ...rest }: Props) {
+export function Button({
+  label,
+  intent = 'primary',
+  size = 'md',
+  leftIcon: Icon,
+  loading = false,
+  disabled = false,
+  style,
+  ...rest
+}: Props) {
   const isDisabled = disabled || loading
   styles.useVariants({ intent, size, disabled: isDisabled })
   const c = UnistylesRuntime.getTheme().colors
-  const iconColor = intent === 'primary' ? c.onPrimary : intent === 'danger' ? c.dangerText : c.accent
+  const iconColor =
+    intent === 'primary' ? c.onPrimary : intent === 'danger' ? c.dangerText : c.accent
   return (
     <Pressable
       {...rest}
@@ -61,8 +78,14 @@ export function Button({ label, intent = 'primary', size = 'md', leftIcon: Icon,
         typeof style === 'function' ? style(state) : style,
       ]}
     >
-      {loading ? <ActivityIndicator color={iconColor} /> : Icon ? <Icon size={18} color={iconColor} weight="fill" /> : null}
-      <Text variant="bodyEmphasis" tone={TEXT_TONE[intent]}>{label}</Text>
+      {loading ? (
+        <ActivityIndicator color={iconColor} />
+      ) : Icon ? (
+        <Icon size={18} color={iconColor} weight="fill" />
+      ) : null}
+      <Text variant="bodyEmphasis" tone={TEXT_TONE[intent]}>
+        {label}
+      </Text>
     </Pressable>
   )
 }

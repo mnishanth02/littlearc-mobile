@@ -8,9 +8,14 @@ export function useReduceMotion(): boolean {
   const [reduced, setReduced] = useState(false)
   useEffect(() => {
     let mounted = true
-    AccessibilityInfo.isReduceMotionEnabled().then(v => mounted && setReduced(v)).catch(() => {})
+    AccessibilityInfo.isReduceMotionEnabled()
+      .then((v) => mounted && setReduced(v))
+      .catch(() => {})
     const sub = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduced)
-    return () => { mounted = false; sub.remove() }
+    return () => {
+      mounted = false
+      sub.remove()
+    }
   }, [])
   return reduced
 }
